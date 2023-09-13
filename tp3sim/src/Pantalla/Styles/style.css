@@ -13,31 +13,54 @@
     background-color: #8E95A4;
   }
   
+  .divTotal{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
   h1{
-    text-align: center;
-    color: #241F19;
+    color: #433633;
     font-weight: bold;
   }
 
   label{
-    color: #241F19;
+    color: #433633;
     font-weight: bold;
   }
 
   .intro{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
-    gap: 5px;
     align-items: center;
+    border-radius: 20px;
+    background-color: #F7F0F5;
+    padding: 10px;
+    margin-bottom: 10px;
   }
 
-  .boton{
+  .botones{
+    gap: 30px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
-    margin-top: 10px;
     margin-bottom: 10px;
+    background-color: #F7F0F5;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+  }
+
+  .desdehasta{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 5px;
+    margin-bottom: 10px;
+    background-color: #F7F0F5;
+    padding: 10px;
+    border-radius: 20px
   }
 
   tr:nth-child(even) {

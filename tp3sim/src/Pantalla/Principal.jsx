@@ -7,7 +7,28 @@ const Principal = () => {
   //Decelaracion de variables principales
   const [simulaciones, setSimulaciones] = useState([]);
   const [cantidadSimulaciones, setCantidadSimulaciones] = useState(10);
+  const [comisionesTotales, setComisionesTotales] = useState({});
+  const [filaInicial, setFilaInicial] = useState(1);
+  const [filaFinal, setFilaFinal] = useState(10);
   const vendedores = ['Vendedor 1', 'Vendedor 2', 'Vendedor 3', 'Vendedor 4'];
+
+  //Funcion para calcular las comisiones totales de cada vendedor
+  const calcularComisionesTotales = () => {
+    const comisionesPorVendedor = {};
+
+    for (const vendedor of vendedores) {
+      const comisionTotal = simulaciones.reduce((total, simulacion) => {
+        if (simulacion.vendedor === vendedor) {
+          return total + simulacion.comision;
+        }
+        return total;
+      }, 0);
+
+      comisionesPorVendedor[vendedor] = comisionTotal;
+    }
+
+    setComisionesTotales(comisionesPorVendedor);
+  };
 
   //Funcion para calcular comision dependiendo del tipoAuto y los autos vendidos
   const calcularComision = (autosVendidos, tipoAuto) => {
@@ -111,16 +132,65 @@ const Principal = () => {
     setSimulaciones(simulacionesNuevas);
   };  
 
+//Función para mostrar filas específicas en la tabla mas la ultima
+const mostrarFilas = () => {
+  const filasMostradas = simulaciones.slice(filaInicial - 1, filaFinal).map((simulacion, index) => (
+      <tr key={index} style={{ textAlign: 'center' }}>
+        <td>{simulacion ? simulacion.semana : '-'}</td>
+        <td>{simulacion ? simulacion.rndVendedor : '-'}</td>
+        <td>{simulacion ? simulacion.vendedor : '-'}</td>
+        <td>{simulacion ? simulacion.rndAutosVendidos : '-'}</td>
+        <td>{simulacion ? simulacion.autosVendidos : '-'}</td>
+        <td>{simulacion ? simulacion.rndTipoAuto : '-'}</td>
+        <td>{simulacion ? simulacion.tipoAuto : '-'}</td>
+        <td>${simulacion ? simulacion.comision : '-'}</td>
+      </tr>
+    ));
+
+  const ultimaFila = (
+    <tr key="ultima" style={{ textAlign: 'center' }}>
+      <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].semana : '-'}</td>
+      <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndVendedor : '-'}</td>
+      <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].vendedor : '-'}</td>
+      <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndAutosVendidos : '-'}</td>
+      <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].autosVendidos : '-'}</td>
+      <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndTipoAuto : '-'}</td>
+      <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].tipoAuto : '-'}</td>
+      <td>${simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comision : '-'}</td>
+    </tr>
+  );
+
+  filasMostradas.push(ultimaFila);
+
+  return filasMostradas;
+};
+
+
   return (
     <div>
-      <h1>TP3 SIM GRUPO 12 4K4</h1>
-      <div className='intro'>
-        <label>Cantidad de Simulaciones:</label>
-        <TextField id="filled-number" variant="filled" label="Numero de simulaciones" type="number" value={cantidadSimulaciones} onChange={(e) => setCantidadSimulaciones(Number(e.target.value))}/>
+    
+      <div className='divTotal'>
+
+        <div className='intro'>
+          <h1>TP3 SIM GRUPO 12 4K4</h1>
+          <label style={{marginBottom:'10px'}}>Cantidad de semanas a simular:</label>
+          <TextField id="filled-number" variant="filled" label="Numero de simulaciones" type="number" value={cantidadSimulaciones} onChange={(e) => setCantidadSimulaciones(Number(e.target.value))}/>
+        </div>
+
+        <div className='desdehasta'>
+          <label>Mostrar desde la semana:</label>
+          <TextField id="filled-number" variant="filled" label="Fila Inicial" type="number" value={filaInicial} onChange={(e) => setFilaInicial(Number(e.target.value))}/>
+          <label>hasta la semana:</label>
+          <TextField id="filled-number" variant="filled" label="Fila Final" type="number" value={filaFinal} onChange={(e) => setFilaFinal(Number(e.target.value))}/>
+        </div>
+
+        <div className='botones'>
+          <Button variant="contained" onClick={realizarSimulacion}>Generar Simulación</Button>
+          <Button variant="contained" onClick={calcularComisionesTotales}>Ver Comisiones Totales</Button>
+        </div>
+
       </div>
-      <div className='boton'>
-        <Button variant="contained" onClick={realizarSimulacion}>Generar Simulación</Button>
-      </div>
+
       <table>
         <thead>
           <tr>
@@ -135,20 +205,18 @@ const Principal = () => {
           </tr>
         </thead>
         <tbody>
-          {simulaciones.map((simulacion, index) => (
-            <tr key={index} style={{ textAlign: 'center' }}>
-              <td>{simulacion.semana}</td>
-              <td>{simulacion.rndVendedor}</td>
-              <td>{simulacion.vendedor}</td>
-              <td>{simulacion.rndAutosVendidos}</td>
-              <td>{simulacion.autosVendidos}</td>
-              <td>{simulacion.rndTipoAuto}</td>
-              <td>{simulacion.tipoAuto}</td>
-              <td>${simulacion.comision}</td>
-            </tr>
-          ))}
+          {mostrarFilas()}
         </tbody>
       </table>
+
+      <div>
+        <h2>Comisiones Totales por Vendedor</h2>
+        <ul>
+          {Object.entries(comisionesTotales).map(([vendedor, comisionTotal]) => (
+            <li key={vendedor}>{vendedor}: ${comisionTotal}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
