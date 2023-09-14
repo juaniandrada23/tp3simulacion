@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import './Styles/style.css'
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 const Principal = () => {
   //Decelaracion de variables principales
@@ -10,7 +13,17 @@ const Principal = () => {
   const [comisionesTotales, setComisionesTotales] = useState({});
   const [filaInicial, setFilaInicial] = useState(1);
   const [filaFinal, setFilaFinal] = useState(10);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [error, setError] = useState('');
   const vendedores = ['Vendedor 1', 'Vendedor 2', 'Vendedor 3', 'Vendedor 4'];
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   //Funcion para calcular las comisiones totales de cada vendedor
   const calcularComisionesTotales = () => {
@@ -68,7 +81,22 @@ const Principal = () => {
     }
   };
 
+  //Funcion para refrescar la pag
+  const realizarRefresh = () => {
+    window.location.reload();    
+  }
+
   const realizarSimulacion = () => {
+    if (error) {
+      setError('');
+    }
+  
+    const errorSimulacion = comprobarErrores();
+    if (errorSimulacion) {
+      setError(errorSimulacion);
+      return;
+    }
+
     //Array de simulaciones, aca es donde se van a ir guardando
     const simulacionesNuevas = [];
   
@@ -132,39 +160,52 @@ const Principal = () => {
     setSimulaciones(simulacionesNuevas);
   };  
 
-//Función para mostrar filas específicas en la tabla mas la ultima
-const mostrarFilas = () => {
-  const filasMostradas = simulaciones.slice(filaInicial - 1, filaFinal).map((simulacion, index) => (
-      <tr key={index} style={{ textAlign: 'center' }}>
-        <td>{simulacion ? simulacion.semana : '-'}</td>
-        <td>{simulacion ? simulacion.rndVendedor : '-'}</td>
-        <td>{simulacion ? simulacion.vendedor : '-'}</td>
-        <td>{simulacion ? simulacion.rndAutosVendidos : '-'}</td>
-        <td>{simulacion ? simulacion.autosVendidos : '-'}</td>
-        <td>{simulacion ? simulacion.rndTipoAuto : '-'}</td>
-        <td>{simulacion ? simulacion.tipoAuto : '-'}</td>
-        <td>${simulacion ? simulacion.comision : '-'}</td>
+  //Función para mostrar filas específicas en la tabla mas la ultima
+  const mostrarFilas = () => {
+    const filasMostradas = simulaciones.slice(filaInicial - 1, filaFinal).map((simulacion, index) => (
+        <tr key={index} style={{ textAlign: 'center' }}>
+          <td>{simulacion ? simulacion.semana : '-'}</td>
+          <td>{simulacion ? simulacion.rndVendedor : '-'}</td>
+          <td>{simulacion ? simulacion.vendedor : '-'}</td>
+          <td>{simulacion ? simulacion.rndAutosVendidos : '-'}</td>
+          <td>{simulacion ? simulacion.autosVendidos : '-'}</td>
+          <td>{simulacion ? simulacion.rndTipoAuto : '-'}</td>
+          <td>{simulacion ? simulacion.tipoAuto : '-'}</td>
+          <td>${simulacion ? simulacion.comision : '-'}</td>
+        </tr>
+      ));
+
+    const ultimaFila = (
+      <tr key="ultima" style={{ textAlign: 'center' }}>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].semana : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndVendedor : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].vendedor : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndAutosVendidos : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].autosVendidos : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndTipoAuto : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].tipoAuto : '-'}</td>
+        <td>${simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comision : '-'}</td>
       </tr>
-    ));
+    );
 
-  const ultimaFila = (
-    <tr key="ultima" style={{ textAlign: 'center' }}>
-      <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].semana : '-'}</td>
-      <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndVendedor : '-'}</td>
-      <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].vendedor : '-'}</td>
-      <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndAutosVendidos : '-'}</td>
-      <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].autosVendidos : '-'}</td>
-      <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndTipoAuto : '-'}</td>
-      <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].tipoAuto : '-'}</td>
-      <td>${simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comision : '-'}</td>
-    </tr>
-  );
+    filasMostradas.push(ultimaFila);
 
-  filasMostradas.push(ultimaFila);
+    return filasMostradas;
+  };
 
-  return filasMostradas;
-};
-
+  const comprobarErrores = () => {
+    if (filaInicial > cantidadSimulaciones &&  filaInicial > filaFinal) {
+      return "Error: Fila inicial es mayor que fila final y estamos fuera de rango";
+    } else if (filaInicial > cantidadSimulaciones) {
+      return "Error: Simulación fuera del rango";
+    } else if (filaInicial > filaFinal) {
+      return "Error: Fila inicial es mayor que fila final";
+    }
+    if (error) {
+      setError('');
+    }
+    return null; 
+  };
 
   return (
     <div>
@@ -186,7 +227,19 @@ const mostrarFilas = () => {
 
         <div className='botones'>
           <Button variant="contained" onClick={realizarSimulacion}>Generar Simulación</Button>
-          <Button variant="contained" onClick={calcularComisionesTotales}>Ver Comisiones Totales</Button>
+          <Button variant="contained" onClick={openModal}>Mostrar Comisiones</Button>
+        </div>
+
+        <div className='reiniciar' style={{display:'flex', flexDirection:'row',alignItems:'center', justifyContent:'center'}}>
+          <Button variant="contained" onClick={() => realizarRefresh()}>Reiniciar</Button>
+        </div>
+
+        <div className='error' style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
+          {error && (
+            <div style={{ color: 'red', textAlign: 'center', marginBottom:'10px'}}>
+              {error}
+            </div>
+          )}
         </div>
 
       </div>
@@ -208,15 +261,24 @@ const mostrarFilas = () => {
           {mostrarFilas()}
         </tbody>
       </table>
+      
+      <Modal open={modalOpen} onClose={closeModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Comisiones Totales por Vendedor
+          </Typography>
+          <ul>
+            {Object.entries(comisionesTotales).map(([vendedor, comisionTotal]) => (
+              <li key={vendedor}>{vendedor}: ${comisionTotal}</li>
+            ))}
+          </ul>
+          <div style={{display:'flex', flexDirection:'row', justifyContent:'space-around'}}>
+          <Button variant="contained" onClick={calcularComisionesTotales}>Calcular Comisiones Totales</Button>
+          <Button onClick={closeModal}>Cerrar</Button>
+          </div>
+        </Box>
+      </Modal>
 
-      <div>
-        <h2>Comisiones Totales por Vendedor</h2>
-        <ul>
-          {Object.entries(comisionesTotales).map(([vendedor, comisionTotal]) => (
-            <li key={vendedor}>{vendedor}: ${comisionTotal}</li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 };

@@ -24,6 +24,13 @@
     font-weight: bold;
   }
 
+  .botonespaginado{
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+    margin-top: 10px;
+  }
+
   label{
     color: #433633;
     font-weight: bold;
