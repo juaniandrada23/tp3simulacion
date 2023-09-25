@@ -15,7 +15,24 @@ const Principal = () => {
   const [filaFinal, setFilaFinal] = useState(10);
   const [modalOpen, setModalOpen] = useState(false);
   const [error, setError] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);  
+  
   const vendedores = ['Vendedor 1', 'Vendedor 2', 'Vendedor 3', 'Vendedor 4'];
+
+  const [probabilidadAutoVendido1, setProbabilidadAutoVendido1] = useState(0.2);
+  const [probabilidadAutoVendido2, setProbabilidadAutoVendido2] = useState(0.5);
+  const [probabilidadAutoVendido3, setProbabilidadAutoVendido3] = useState(0.8);
+  const [probabilidadAutoVendido4, setProbabilidadAutoVendido4] = useState(0.95);
+  const [probabilidadAutoVendido5, setProbabilidadAutoVendido5] = useState(0.99);
+
+
+  const openMenu = () => {
+    setMenuOpen(true);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
 
   const openModal = () => {
     setModalOpen(true);
@@ -44,29 +61,39 @@ const Principal = () => {
   };
 
   //Funcion para calcular comision dependiendo del tipoAuto y los autos vendidos
-  const calcularComision = (autosVendidos, tipoAuto) => {
+  const calcularComision = (autosVendidos, tipoAuto, rndComisionMediano, rndComisionLujo) => {
     let comision = 0;
+
     if (tipoAuto === 'Compacto') {
       comision = 250 * autosVendidos;
-    } else if (tipoAuto === 'Mediano') {
-      const rndMediano = Math.random();
-      if (rndMediano <= 0.4) {
+    } 
+    else if (tipoAuto === 'Mediano') {
+      if (rndComisionMediano <= 0.4) {
         comision = 400 * autosVendidos;
-      } else {
+      } 
+      else {
         comision = 500 * autosVendidos;
       }
-    } else if (tipoAuto === 'Lujo') {
-      const rndLujo = Math.random();
-      if (rndLujo <= 0.35) {
+    } 
+    else if (tipoAuto === 'Lujo') {
+      if (rndComisionLujo <= 0.35) {
         comision = 1000 * autosVendidos;
-      } else if (rndLujo <= 0.75) {
+      } 
+      else if (rndComisionLujo <= 0.75) {
         comision = 1500 * autosVendidos;
-      } else {
+      } 
+      else {
         comision = 2000 * autosVendidos;
       }
     }
+
     return comision;
   };
+
+  const calcularComisionPromedio = (comision) => {
+    const comisionPromedio = comision/7;
+    return comisionPromedio;
+  }
 
   //Funcion para asignar vendedor dependiendo del random
   const asignarVendedor = (rnd) => {
@@ -86,6 +113,7 @@ const Principal = () => {
     window.location.reload();    
   }
 
+  //Ciclo for para generar las simulaciones
   const realizarSimulacion = () => {
     if (error) {
       setError('');
@@ -105,52 +133,73 @@ const Principal = () => {
       const rndAutosVendidos = Math.random();
       let autosVendidos;
   
-      if (rndAutosVendidos < 0.2) {
+      if (rndAutosVendidos < probabilidadAutoVendido1) {
         autosVendidos = 0;
-      } else if (rndAutosVendidos < 0.5) {
+      } else if (rndAutosVendidos < probabilidadAutoVendido2) {
         autosVendidos = 1;
-      } else if (rndAutosVendidos < 0.8) {
+      } else if (rndAutosVendidos < probabilidadAutoVendido3) {
         autosVendidos = 2;
-      } else if (rndAutosVendidos < 0.95) {
+      } else if (rndAutosVendidos < probabilidadAutoVendido4) {
         autosVendidos = 3;
-      } else {
+      } else if (rndAutosVendidos < probabilidadAutoVendido5) {
         autosVendidos = 4;
       }
   
-      //CALCULO PARA SABER TIPO AUTO
+      //CONDICIONALES PARA SABER TIPO AUTO Y RANDOM PARA COMISIONES
       let tipoAuto = '';
       let rndTipoAuto = Math.random();
+
+      let rndComisionMediano = 0;
+      let rndComisionLujo = 0;
   
       if (autosVendidos === 0) {
         rndTipoAuto = 0;
         tipoAuto = '-';
+        rndComisionMediano = '-';
+        rndComisionLujo = '-';
       } else if (rndTipoAuto < 0.5) {
         tipoAuto = 'Compacto';
       } else if (rndTipoAuto < 0.75) {
         tipoAuto = 'Mediano';
       } else {
         tipoAuto = 'Lujo';
-      }     
-  
+      }       
+      
+      if (tipoAuto === 'Compacto') {
+        rndComisionMediano = '-';
+        rndComisionLujo = '-';
+      } else if (tipoAuto === 'Mediano') {
+        rndComisionMediano = Math.random().toFixed(4);
+        rndComisionLujo = '-';
+      } else if (tipoAuto === 'Lujo') {
+        rndComisionMediano = '-';
+        rndComisionLujo = Math.random().toFixed(4);
+      }      
+
       //Random para el vendedor
-      const rndVendedor = Math.random()-0.001;      
+      const rndVendedor = Math.random();       
 
       //Asignamos como variable vendedor a la funcion asignarVendedor pasandole como propiedad el random
       const vendedor = asignarVendedor(rndVendedor);
 
       //Asignamos como variable comision a la funcion calcularComision como hicimos antes con el vendedor
-      const comision = calcularComision(autosVendidos, tipoAuto);
+      const comision = calcularComision(autosVendidos, tipoAuto, rndComisionMediano, rndComisionLujo);
+
+      const comisionPromedio = calcularComisionPromedio(comision);
   
       //Datos para mostrar en el array
       const nuevaSimulacion = {
         semana: i + 1,
-        rndVendedor: rndVendedor.toFixed(2),
+        rndVendedor: rndVendedor.toFixed(4),
         vendedor,
-        rndAutosVendidos: rndAutosVendidos.toFixed(2),
+        rndAutosVendidos: rndAutosVendidos.toFixed(4),
         autosVendidos,
-        rndTipoAuto: rndTipoAuto.toFixed(2),
+        rndTipoAuto: rndTipoAuto.toFixed(4),
         tipoAuto,
+        rndComisionMediano: rndComisionMediano,
+        rndComisionLujo: rndComisionLujo,
         comision,
+        comisionPromedio
       };
   
       //Hacemos el push al array simulacionesNuevas declarado al principio 
@@ -160,7 +209,7 @@ const Principal = () => {
     setSimulaciones(simulacionesNuevas);
   };  
 
-  //Función para mostrar filas específicas en la tabla mas la ultima
+  //Funcion para mostrar filas específicas en la tabla mas la ultima
   const mostrarFilas = () => {
     const filasMostradas = simulaciones.slice(filaInicial - 1, filaFinal).map((simulacion, index) => (
         <tr key={index} style={{ textAlign: 'center' }}>
@@ -171,7 +220,10 @@ const Principal = () => {
           <td>{simulacion ? simulacion.autosVendidos : '-'}</td>
           <td>{simulacion ? simulacion.rndTipoAuto : '-'}</td>
           <td>{simulacion ? simulacion.tipoAuto : '-'}</td>
+          <td>{simulacion ? simulacion.rndComisionMediano : '-'}</td>
+          <td>{simulacion ? simulacion.rndComisionLujo : '-'}</td>
           <td>${simulacion ? simulacion.comision : '-'}</td>
+          <td>${simulacion ? simulacion.comisionPromedio.toFixed(2) : '-'}</td>
         </tr>
       ));
 
@@ -184,7 +236,10 @@ const Principal = () => {
         <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].autosVendidos : '-'}</td>
         <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndTipoAuto : '-'}</td>
         <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].tipoAuto : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndComisionMediano : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndComisionLujo : '-'}</td>
         <td>${simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comision : '-'}</td>
+        <td>${simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comisionPromedio.toFixed(2) : '-'}</td>
       </tr>
     );
 
@@ -193,6 +248,12 @@ const Principal = () => {
     return filasMostradas;
   };
 
+  //ARREGLAR ESTO ACA, NO SE COMO CONTROLAR LA ACUMULACIONDEPROBABILIDAD
+  const acumulacionDeProbabilidad = (probabilidadAutoVendido1-0)+(probabilidadAutoVendido2-probabilidadAutoVendido1)+(probabilidadAutoVendido3-probabilidadAutoVendido2)+(probabilidadAutoVendido4-probabilidadAutoVendido3)+(probabilidadAutoVendido5-probabilidadAutoVendido4);
+
+  console.log(acumulacionDeProbabilidad);
+
+  //Funcion para los errores
   const comprobarErrores = () => {
     if (filaInicial > cantidadSimulaciones &&  filaInicial > filaFinal) {
       return "Error: Fila inicial es mayor que fila final y estamos fuera de rango";
@@ -200,10 +261,15 @@ const Principal = () => {
       return "Error: Simulación fuera del rango";
     } else if (filaInicial > filaFinal) {
       return "Error: Fila inicial es mayor que fila final";
+    } else if (filaFinal > cantidadSimulaciones) {
+      return "Error: Fila final es mayor a la cantidad de simulaciones a generar, fuera de rango"
+    } else if ( acumulacionDeProbabilidad > 1) {
+      return "Error: Las probabilidades de los autos es mayor a 1"
     }
     if (error) {
       setError('');
     }
+
     return null; 
   };
 
@@ -244,6 +310,31 @@ const Principal = () => {
 
       </div>
 
+      <div className='probabilidades' style={{display:'flex', justifyContent:'center'}}>
+        <div className='menu-button'>
+          <Button variant="contained" style={{marginTop:'10px', marginBottom:'10px'}} onClick={openMenu}> ☰ Probabilidades </Button>
+          {menuOpen && (
+            <div className="menu-input">
+              <div className='probautovendido' style={{display:'flex', flexDirection:'row', marginBottom:'10px', gap: '10px'}}>
+                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 0" type="number" value={probabilidadAutoVendido1} onChange={(e) => setProbabilidadAutoVendido1(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 1" type="number" value={probabilidadAutoVendido2} onChange={(e) => setProbabilidadAutoVendido2(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 2" type="number" value={probabilidadAutoVendido3} onChange={(e) => setProbabilidadAutoVendido3(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 3" type="number" value={probabilidadAutoVendido4} onChange={(e) => setProbabilidadAutoVendido4(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 4" type="number" value={probabilidadAutoVendido5} onChange={(e) => setProbabilidadAutoVendido5(Number(e.target.value))}/>
+              </div>
+
+              <div className='tipoautovendido'>
+                {/*<TextField id="filled-number" variant="filled" label="Prob. autos vendidos 0" type="number" step="0.01" min="0" max="1" value={probabilidadAutoVendido1} onChange={(e) => setProbabilidadAutoVendido1(Number(e.target.value))}/>*/}
+              </div>
+
+              <div className='botoncerrar'>
+                <Button variant="contained" style={{marginBottom:'10px', marginTop:'10px'}} onClick={closeMenu}> Cerrar </Button>
+              </div>
+          </div>
+          )}
+        </div>
+      </div>
+
       <table>
         <thead>
           <tr>
@@ -254,7 +345,10 @@ const Principal = () => {
             <th>Autos Vendidos</th>
             <th>RND Tipo auto</th>
             <th>Tipo Auto</th>
+            <th>Rnd Mediano</th>
+            <th>Rnd Lujo</th>
             <th>Comisión</th>
+            <th>Comisión promedio semanal</th>
           </tr>
         </thead>
         <tbody>
