@@ -25,6 +25,9 @@ const Principal = () => {
   const [probabilidadAutoVendido4, setProbabilidadAutoVendido4] = useState(0.95);
   const [probabilidadAutoVendido5, setProbabilidadAutoVendido5] = useState(0.99);
 
+  const [probabilidadCompacto, setProbabilidadCompacto] = useState(0.5);
+  const [probabilidadMediano, setProbabilidadMediano] = useState(0.85);
+  const [probabilidadLujo, setProbabilidadLujo] = useState(0.99);
 
   const openMenu = () => {
     setMenuOpen(true);
@@ -157,11 +160,11 @@ const Principal = () => {
         tipoAuto = '-';
         rndComisionMediano = '-';
         rndComisionLujo = '-';
-      } else if (rndTipoAuto < 0.5) {
+      } else if (rndTipoAuto < probabilidadCompacto) {
         tipoAuto = 'Compacto';
-      } else if (rndTipoAuto < 0.75) {
+      } else if (rndTipoAuto < probabilidadMediano) {
         tipoAuto = 'Mediano';
-      } else {
+      } else if (rndTipoAuto < probabilidadLujo) {
         tipoAuto = 'Lujo';
       }       
       
@@ -249,9 +252,8 @@ const Principal = () => {
   };
 
   //ARREGLAR ESTO ACA, NO SE COMO CONTROLAR LA ACUMULACIONDEPROBABILIDAD
-  const acumulacionDeProbabilidad = (probabilidadAutoVendido1-0)+(probabilidadAutoVendido2-probabilidadAutoVendido1)+(probabilidadAutoVendido3-probabilidadAutoVendido2)+(probabilidadAutoVendido4-probabilidadAutoVendido3)+(probabilidadAutoVendido5-probabilidadAutoVendido4);
-
-  console.log(acumulacionDeProbabilidad);
+  //const acumulacionDeProbabilidad = (probabilidadAutoVendido1-0)+(probabilidadAutoVendido2-probabilidadAutoVendido1)+(probabilidadAutoVendido3-probabilidadAutoVendido2)+(probabilidadAutoVendido4-probabilidadAutoVendido3)+(probabilidadAutoVendido5-probabilidadAutoVendido4);
+  //console.log(acumulacionDeProbabilidad);
 
   //Funcion para los errores
   const comprobarErrores = () => {
@@ -263,9 +265,22 @@ const Principal = () => {
       return "Error: Fila inicial es mayor que fila final";
     } else if (filaFinal > cantidadSimulaciones) {
       return "Error: Fila final es mayor a la cantidad de simulaciones a generar, fuera de rango"
-    } else if ( acumulacionDeProbabilidad > 1) {
-      return "Error: Las probabilidades de los autos es mayor a 1"
-    }
+    } else if ( probabilidadAutoVendido1 >= 1 || probabilidadAutoVendido2 >= 1 || probabilidadAutoVendido3 >= 1 || probabilidadAutoVendido4 >= 1 || probabilidadAutoVendido5 >= 1) {
+      return "Error: Ninguna probabilidad puede ser mayor o igual que 1";
+    } else if (
+      probabilidadAutoVendido1 === probabilidadAutoVendido2 ||
+      probabilidadAutoVendido1 === probabilidadAutoVendido3 ||
+      probabilidadAutoVendido1 === probabilidadAutoVendido4 ||
+      probabilidadAutoVendido1 === probabilidadAutoVendido5 ||
+      probabilidadAutoVendido2 === probabilidadAutoVendido3 ||
+      probabilidadAutoVendido2 === probabilidadAutoVendido4 ||
+      probabilidadAutoVendido2 === probabilidadAutoVendido5 ||
+      probabilidadAutoVendido3 === probabilidadAutoVendido4 ||
+      probabilidadAutoVendido3 === probabilidadAutoVendido5 ||
+      probabilidadAutoVendido4 === probabilidadAutoVendido5
+    ) {
+      return "Error: No puede haber dos limites superiores iguales entre las probabilidades de autos vendidos";
+    } //AGREGAR MAS VALIDACIONES
     if (error) {
       setError('');
     }
@@ -316,15 +331,17 @@ const Principal = () => {
           {menuOpen && (
             <div className="menu-input">
               <div className='probautovendido' style={{display:'flex', flexDirection:'row', marginBottom:'10px', gap: '10px'}}>
-                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 0" type="number" value={probabilidadAutoVendido1} onChange={(e) => setProbabilidadAutoVendido1(Number(e.target.value))}/>
-                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 1" type="number" value={probabilidadAutoVendido2} onChange={(e) => setProbabilidadAutoVendido2(Number(e.target.value))}/>
-                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 2" type="number" value={probabilidadAutoVendido3} onChange={(e) => setProbabilidadAutoVendido3(Number(e.target.value))}/>
-                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 3" type="number" value={probabilidadAutoVendido4} onChange={(e) => setProbabilidadAutoVendido4(Number(e.target.value))}/>
-                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 4" type="number" value={probabilidadAutoVendido5} onChange={(e) => setProbabilidadAutoVendido5(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Limite superior autos vendidos 0" type="number" value={probabilidadAutoVendido1} onChange={(e) => setProbabilidadAutoVendido1(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Limite superior autos vendidos 1" type="number" value={probabilidadAutoVendido2} onChange={(e) => setProbabilidadAutoVendido2(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Limite superior autos vendidos 2" type="number" value={probabilidadAutoVendido3} onChange={(e) => setProbabilidadAutoVendido3(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Limite superior autos vendidos 3" type="number" value={probabilidadAutoVendido4} onChange={(e) => setProbabilidadAutoVendido4(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Limite superior autos vendidos 4" type="number" value={probabilidadAutoVendido5} onChange={(e) => setProbabilidadAutoVendido5(Number(e.target.value))}/>
               </div>
 
-              <div className='tipoautovendido'>
-                {/*<TextField id="filled-number" variant="filled" label="Prob. autos vendidos 0" type="number" step="0.01" min="0" max="1" value={probabilidadAutoVendido1} onChange={(e) => setProbabilidadAutoVendido1(Number(e.target.value))}/>*/}
+              <div className='tipoautovendido' style={{display:'flex', flexDirection:'row', marginBottom:'10px', gap: '10px'}}>
+                <TextField id="filled-number" variant="filled" label="Limite superior tipo auto Compacto" type="number" value={probabilidadCompacto} onChange={(e) => setProbabilidadCompacto(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Limite superior tipo auto Mediano" type="number" value={probabilidadMediano} onChange={(e) => setProbabilidadMediano(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Limite superior tipo auto Lujo" type="number" value={probabilidadLujo} onChange={(e) => setProbabilidadLujo(Number(e.target.value))}/>
               </div>
 
               <div className='botoncerrar'>
