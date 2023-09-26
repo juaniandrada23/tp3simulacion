@@ -48,18 +48,18 @@ const Principal = () => {
   //Funcion para calcular las comisiones totales de cada vendedor
   const calcularComisionesTotales = () => {
     const comisionesPorVendedor = {};
-
+  
     for (const vendedor of vendedores) {
       const comisionTotal = simulaciones.reduce((total, simulacion) => {
-        if (simulacion.vendedor === vendedor) {
+        if (simulacion.vendedor === vendedor && !isNaN(simulacion.comision)) {
           return total + simulacion.comision;
         }
         return total;
       }, 0);
-
+  
       comisionesPorVendedor[vendedor] = comisionTotal;
     }
-
+  
     setComisionesTotales(comisionesPorVendedor);
   };
 
@@ -93,11 +93,6 @@ const Principal = () => {
     return comision;
   };
 
-  const calcularComisionPromedio = (comision) => {
-    const comisionPromedio = comision/7;
-    return comisionPromedio;
-  }
-
   //Funcion para asignar vendedor dependiendo del random
   const asignarVendedor = (rnd) => {
     if (rnd <= 0.249 && rnd > 0) {
@@ -116,7 +111,7 @@ const Principal = () => {
     window.location.reload();    
   }
 
-  //Ciclo for para generar las simulaciones
+  //--------------------------------------------------------Ciclo for para generar las simulaciones------------------------------------------------------------------
   const realizarSimulacion = () => {
     if (error) {
       setError('');
@@ -128,12 +123,18 @@ const Principal = () => {
       return;
     }
 
+    // Agregar estas variables al principio de la función realizarSimulacion
+    let comisionAcumuladaVendedor1 = 0;
+    let comisionAcumuladaVendedor2 = 0;
+    let comisionAcumuladaVendedor3 = 0;
+    let comisionAcumuladaVendedor4 = 0;
+
     //Array de simulaciones, aca es donde se van a ir guardando
     const simulacionesNuevas = [];
   
     for (let i = 0; i < cantidadSimulaciones; i++) {
       //CALCULO PARA SABER AUTOS VENDIDOS
-      const rndAutosVendidos = Math.random();
+      const rndAutosVendidos = Math.random() * 0.99;
       let autosVendidos;
   
       if (rndAutosVendidos < probabilidadAutoVendido1) {
@@ -144,7 +145,7 @@ const Principal = () => {
         autosVendidos = 2;
       } else if (rndAutosVendidos < probabilidadAutoVendido4) {
         autosVendidos = 3;
-      } else if (rndAutosVendidos < probabilidadAutoVendido5) {
+      } else if (rndAutosVendidos <= probabilidadAutoVendido5) {
         autosVendidos = 4;
       }
   
@@ -187,9 +188,27 @@ const Principal = () => {
 
       //Asignamos como variable comision a la funcion calcularComision como hicimos antes con el vendedor
       const comision = calcularComision(autosVendidos, tipoAuto, rndComisionMediano, rndComisionLujo);
-
-      const comisionPromedio = calcularComisionPromedio(comision);
   
+      //AC
+      if (vendedor === 'Vendedor 1') {
+        comisionAcumuladaVendedor1 += comision;
+      } else if (vendedor === 'Vendedor 2') {
+        comisionAcumuladaVendedor2 += comision;
+      } else if (vendedor === 'Vendedor 3') {
+        comisionAcumuladaVendedor3 += comision;
+      } else if (vendedor === 'Vendedor 4') {
+        comisionAcumuladaVendedor4 += comision;
+      }
+
+      // Calcular promediosAC
+      const promedioComisionAcumuladaVendedor1 = parseFloat(comisionAcumuladaVendedor1 / (i+1));
+
+      const promedioComisionAcumuladaVendedor2 = parseFloat(comisionAcumuladaVendedor2 / (i+1));
+
+      const promedioComisionAcumuladaVendedor3 = parseFloat(comisionAcumuladaVendedor3 / (i+1));
+
+      const promedioComisionAcumuladaVendedor4 = parseFloat(comisionAcumuladaVendedor4 / (i+1));
+
       //Datos para mostrar en el array
       const nuevaSimulacion = {
         semana: i + 1,
@@ -202,7 +221,14 @@ const Principal = () => {
         rndComisionMediano: rndComisionMediano,
         rndComisionLujo: rndComisionLujo,
         comision,
-        comisionPromedio
+        comisionAcumuladaVendedor1,
+        promedioComisionAcumuladaVendedor1,
+        comisionAcumuladaVendedor2,
+        promedioComisionAcumuladaVendedor2,
+        comisionAcumuladaVendedor3,
+        promedioComisionAcumuladaVendedor3,
+        comisionAcumuladaVendedor4,
+        promedioComisionAcumuladaVendedor4,
       };
   
       //Hacemos el push al array simulacionesNuevas declarado al principio 
@@ -226,7 +252,14 @@ const Principal = () => {
           <td>{simulacion ? simulacion.rndComisionMediano : '-'}</td>
           <td>{simulacion ? simulacion.rndComisionLujo : '-'}</td>
           <td>${simulacion ? simulacion.comision : '-'}</td>
-          <td>${simulacion ? simulacion.comisionPromedio.toFixed(2) : '-'}</td>
+          <td>{simulacion ? simulacion.comisionAcumuladaVendedor1 : '-'}</td>
+          <td>{simulacion ? simulacion.promedioComisionAcumuladaVendedor1.toFixed(1) : '-'}</td>
+          <td>{simulacion ? simulacion.comisionAcumuladaVendedor2 : '-'}</td>
+          <td>{simulacion ? simulacion.promedioComisionAcumuladaVendedor2.toFixed(1) : '-'}</td>
+          <td>{simulacion ? simulacion.comisionAcumuladaVendedor3 : '-'}</td>
+          <td>{simulacion ? simulacion.promedioComisionAcumuladaVendedor3.toFixed(1) : '-'}</td>
+          <td>{simulacion ? simulacion.comisionAcumuladaVendedor4 : '-'}</td>
+          <td>{simulacion ? simulacion.promedioComisionAcumuladaVendedor4.toFixed(1) : '-'}</td>
         </tr>
       ));
 
@@ -242,7 +275,14 @@ const Principal = () => {
         <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndComisionMediano : '-'}</td>
         <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndComisionLujo : '-'}</td>
         <td>${simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comision : '-'}</td>
-        <td>${simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comisionPromedio.toFixed(2) : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comisionAcumuladaVendedor1 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].promedioComisionAcumuladaVendedor1.toFixed(1) : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comisionAcumuladaVendedor2 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].promedioComisionAcumuladaVendedor2.toFixed(1) : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comisionAcumuladaVendedor3 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].promedioComisionAcumuladaVendedor3.toFixed(1) : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comisionAcumuladaVendedor4 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].promedioComisionAcumuladaVendedor4.toFixed(1) : '-'}</td>
       </tr>
     );
 
@@ -365,7 +405,14 @@ const Principal = () => {
             <th>Rnd Mediano</th>
             <th>Rnd Lujo</th>
             <th>Comisión</th>
-            <th>Comisión promedio semanal</th>
+            <th>AC Comision V1</th>
+            <th>Prom. Comision AC V1</th>
+            <th>AC Comision V2</th>
+            <th>Prom. Comision AC V2</th>
+            <th>AC Comision V3</th>
+            <th>Prom. Comision AC V3</th>
+            <th>AC Comision V4</th>
+            <th>Prom. Comision AC V4</th>
           </tr>
         </thead>
         <tbody>
