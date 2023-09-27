@@ -19,15 +19,22 @@ const Principal = () => {
   
   const vendedores = ['Vendedor 1', 'Vendedor 2', 'Vendedor 3', 'Vendedor 4'];
 
-  const [probabilidadAutoVendido1, setProbabilidadAutoVendido1] = useState(0.2);
-  const [probabilidadAutoVendido2, setProbabilidadAutoVendido2] = useState(0.5);
-  const [probabilidadAutoVendido3, setProbabilidadAutoVendido3] = useState(0.8);
-  const [probabilidadAutoVendido4, setProbabilidadAutoVendido4] = useState(0.95);
-  const [probabilidadAutoVendido5, setProbabilidadAutoVendido5] = useState(0.99);
+  const [probabilidadAutoVendido1, setProbabilidadAutoVendido1] = useState(20);
+  const [probabilidadAutoVendido2, setProbabilidadAutoVendido2] = useState(30);
+  const [probabilidadAutoVendido3, setProbabilidadAutoVendido3] = useState(30);
+  const [probabilidadAutoVendido4, setProbabilidadAutoVendido4] = useState(15);
+  const [probabilidadAutoVendido5, setProbabilidadAutoVendido5] = useState(5);
 
-  const [probabilidadCompacto, setProbabilidadCompacto] = useState(0.5);
-  const [probabilidadMediano, setProbabilidadMediano] = useState(0.85);
-  const [probabilidadLujo, setProbabilidadLujo] = useState(0.99);
+  const [probabilidadCompacto, setProbabilidadCompacto] = useState(50);
+  const [probabilidadMediano, setProbabilidadMediano] = useState(35);
+  const [probabilidadLujo, setProbabilidadLujo] = useState(15);
+
+  const [probabilidadComisionMediano1, setprobabilidadComisionMediano1] = useState(40);
+  const [probabilidadComisionMediano2, setprobabilidadComisionMediano2] = useState(60);
+
+  const [probabilidadComisionLujo1, setprobabilidadComisionLujo1] = useState(35);
+  const [probabilidadComisionLujo2, setprobabilidadComisionLujo2] = useState(40);
+  const [probabilidadComisionLujo3, setprobabilidadComisionLujo3] = useState(25);
 
   const openMenu = () => {
     setMenuOpen(true);
@@ -71,21 +78,21 @@ const Principal = () => {
       comision = 250 * autosVendidos;
     } 
     else if (tipoAuto === 'Mediano') {
-      if (rndComisionMediano <= 0.4) {
+      if (rndComisionMediano <= probabilidadComisionMediano1*0.01) {
         comision = 400 * autosVendidos;
       } 
-      else {
+      else if (rndComisionMediano <= probabilidadComisionMediano2*0.01 + probabilidadComisionMediano1*0.01) {
         comision = 500 * autosVendidos;
       }
     } 
     else if (tipoAuto === 'Lujo') {
-      if (rndComisionLujo <= 0.35) {
+      if (rndComisionLujo <= probabilidadComisionLujo1*0.01) {
         comision = 1000 * autosVendidos;
       } 
-      else if (rndComisionLujo <= 0.75) {
+      else if (rndComisionLujo <= probabilidadComisionLujo2*0.01 + probabilidadComisionLujo1*0.01) {
         comision = 1500 * autosVendidos;
       } 
-      else {
+      else if (rndComisionLujo <= probabilidadComisionLujo3*0.01 + probabilidadComisionLujo2*0.01 + probabilidadComisionLujo1*0.01) {
         comision = 2000 * autosVendidos;
       }
     }
@@ -137,15 +144,15 @@ const Principal = () => {
       const rndAutosVendidos = Math.random() * 0.99;
       let autosVendidos;
   
-      if (rndAutosVendidos < probabilidadAutoVendido1) {
+      if (rndAutosVendidos < probabilidadAutoVendido1*0.01) {
         autosVendidos = 0;
-      } else if (rndAutosVendidos < probabilidadAutoVendido2) {
+      } else if (rndAutosVendidos < probabilidadAutoVendido2*0.01 + probabilidadAutoVendido1*0.01) {
         autosVendidos = 1;
-      } else if (rndAutosVendidos < probabilidadAutoVendido3) {
+      } else if (rndAutosVendidos < probabilidadAutoVendido3*0.01 + probabilidadAutoVendido2*0.01 + probabilidadAutoVendido1*0.01) {
         autosVendidos = 2;
-      } else if (rndAutosVendidos < probabilidadAutoVendido4) {
+      } else if (rndAutosVendidos < probabilidadAutoVendido4*0.01 + probabilidadAutoVendido3*0.01 + probabilidadAutoVendido2*0.01 + probabilidadAutoVendido1*0.01) {
         autosVendidos = 3;
-      } else if (rndAutosVendidos <= probabilidadAutoVendido5) {
+      } else if (rndAutosVendidos <= probabilidadAutoVendido5*0.01 + probabilidadAutoVendido4*0.01 + probabilidadAutoVendido3*0.01 + probabilidadAutoVendido2*0.01 + probabilidadAutoVendido1*0.01) {
         autosVendidos = 4;
       }
   
@@ -161,11 +168,11 @@ const Principal = () => {
         tipoAuto = '-';
         rndComisionMediano = '-';
         rndComisionLujo = '-';
-      } else if (rndTipoAuto < probabilidadCompacto) {
+      } else if (rndTipoAuto < probabilidadCompacto*0.01) {
         tipoAuto = 'Compacto';
-      } else if (rndTipoAuto < probabilidadMediano) {
+      } else if (rndTipoAuto < probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
         tipoAuto = 'Mediano';
-      } else if (rndTipoAuto < probabilidadLujo) {
+      } else if (rndTipoAuto < probabilidadLujo*0.01 + probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
         tipoAuto = 'Lujo';
       }       
       
@@ -291,9 +298,17 @@ const Principal = () => {
     return filasMostradas;
   };
 
-  //ARREGLAR ESTO ACA, NO SE COMO CONTROLAR LA ACUMULACIONDEPROBABILIDAD
-  //const acumulacionDeProbabilidad = (probabilidadAutoVendido1-0)+(probabilidadAutoVendido2-probabilidadAutoVendido1)+(probabilidadAutoVendido3-probabilidadAutoVendido2)+(probabilidadAutoVendido4-probabilidadAutoVendido3)+(probabilidadAutoVendido5-probabilidadAutoVendido4);
-  //console.log(acumulacionDeProbabilidad);
+  const acProbabilidad = (probabilidadAutoVendido1*0.01 + probabilidadAutoVendido2*0.01 + probabilidadAutoVendido3*0.01 + probabilidadAutoVendido4*0.01 + probabilidadAutoVendido5*0.01)-0.001;
+  console.log(acProbabilidad);
+
+  const acProbabilidadTipoAuto = (probabilidadCompacto*0.01 + probabilidadMediano*0.01 + probabilidadLujo*0.01); 
+  console.log(acProbabilidadTipoAuto);
+
+  const acProbabilidadComisionMediano = (probabilidadComisionMediano1*0.01+probabilidadComisionMediano2*0.01);
+  console.log(acProbabilidadComisionMediano);
+
+  const acProbabilidadComisionLujo = (probabilidadComisionLujo1*0.01+probabilidadComisionLujo2*0.01+probabilidadComisionLujo3*0.01);
+  console.log(acProbabilidadComisionLujo);
 
   //Funcion para los errores
   const comprobarErrores = () => {
@@ -305,22 +320,9 @@ const Principal = () => {
       return "Error: Fila inicial es mayor que fila final";
     } else if (filaFinal > cantidadSimulaciones) {
       return "Error: Fila final es mayor a la cantidad de simulaciones a generar, fuera de rango"
-    } else if ( probabilidadAutoVendido1 >= 1 || probabilidadAutoVendido2 >= 1 || probabilidadAutoVendido3 >= 1 || probabilidadAutoVendido4 >= 1 || probabilidadAutoVendido5 >= 1) {
-      return "Error: Ninguna probabilidad puede ser mayor o igual que 1";
-    } else if (
-      probabilidadAutoVendido1 === probabilidadAutoVendido2 ||
-      probabilidadAutoVendido1 === probabilidadAutoVendido3 ||
-      probabilidadAutoVendido1 === probabilidadAutoVendido4 ||
-      probabilidadAutoVendido1 === probabilidadAutoVendido5 ||
-      probabilidadAutoVendido2 === probabilidadAutoVendido3 ||
-      probabilidadAutoVendido2 === probabilidadAutoVendido4 ||
-      probabilidadAutoVendido2 === probabilidadAutoVendido5 ||
-      probabilidadAutoVendido3 === probabilidadAutoVendido4 ||
-      probabilidadAutoVendido3 === probabilidadAutoVendido5 ||
-      probabilidadAutoVendido4 === probabilidadAutoVendido5
-    ) {
-      return "Error: No puede haber dos limites superiores iguales entre las probabilidades de autos vendidos";
-    } //AGREGAR MAS VALIDACIONES
+    } else if ( acProbabilidad > 1 || acProbabilidadTipoAuto > 1 || acProbabilidadComisionMediano > 1 || acProbabilidadComisionLujo > 1) {
+      return "Error: La probabilidad no puede superar el 100%"
+    }
     if (error) {
       setError('');
     }
@@ -371,17 +373,32 @@ const Principal = () => {
           {menuOpen && (
             <div className="menu-input">
               <div className='probautovendido' style={{display:'flex', flexDirection:'row', marginBottom:'10px', gap: '10px'}}>
-                <TextField id="filled-number" variant="filled" label="Limite superior autos vendidos 0" type="number" value={probabilidadAutoVendido1} onChange={(e) => setProbabilidadAutoVendido1(Number(e.target.value))}/>
-                <TextField id="filled-number" variant="filled" label="Limite superior autos vendidos 1" type="number" value={probabilidadAutoVendido2} onChange={(e) => setProbabilidadAutoVendido2(Number(e.target.value))}/>
-                <TextField id="filled-number" variant="filled" label="Limite superior autos vendidos 2" type="number" value={probabilidadAutoVendido3} onChange={(e) => setProbabilidadAutoVendido3(Number(e.target.value))}/>
-                <TextField id="filled-number" variant="filled" label="Limite superior autos vendidos 3" type="number" value={probabilidadAutoVendido4} onChange={(e) => setProbabilidadAutoVendido4(Number(e.target.value))}/>
-                <TextField id="filled-number" variant="filled" label="Limite superior autos vendidos 4" type="number" value={probabilidadAutoVendido5} onChange={(e) => setProbabilidadAutoVendido5(Number(e.target.value))}/>
+                <h4>Probabilidad cantidad autos vendidos</h4>
+                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 0" type="number" value={probabilidadAutoVendido1} onChange={(e) => setProbabilidadAutoVendido1(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 1" type="number" value={probabilidadAutoVendido2} onChange={(e) => setProbabilidadAutoVendido2(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 2" type="number" value={probabilidadAutoVendido3} onChange={(e) => setProbabilidadAutoVendido3(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 3" type="number" value={probabilidadAutoVendido4} onChange={(e) => setProbabilidadAutoVendido4(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Prob. autos vendidos 4" type="number" value={probabilidadAutoVendido5} onChange={(e) => setProbabilidadAutoVendido5(Number(e.target.value))}/>
               </div>
 
               <div className='tipoautovendido' style={{display:'flex', flexDirection:'row', marginBottom:'10px', gap: '10px'}}>
-                <TextField id="filled-number" variant="filled" label="Limite superior tipo auto Compacto" type="number" value={probabilidadCompacto} onChange={(e) => setProbabilidadCompacto(Number(e.target.value))}/>
-                <TextField id="filled-number" variant="filled" label="Limite superior tipo auto Mediano" type="number" value={probabilidadMediano} onChange={(e) => setProbabilidadMediano(Number(e.target.value))}/>
-                <TextField id="filled-number" variant="filled" label="Limite superior tipo auto Lujo" type="number" value={probabilidadLujo} onChange={(e) => setProbabilidadLujo(Number(e.target.value))}/>
+                <h4>Probabilidad comisiones tipo auto vendido</h4>
+                <TextField id="filled-number" variant="filled" label="Prob. tipo auto Compacto" type="number" value={probabilidadCompacto} onChange={(e) => setProbabilidadCompacto(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Prob. tipo auto Mediano" type="number" value={probabilidadMediano} onChange={(e) => setProbabilidadMediano(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Prob. tipo auto Lujo" type="number" value={probabilidadLujo} onChange={(e) => setProbabilidadLujo(Number(e.target.value))}/>
+              </div>
+
+              <div className='dineroPorTipoAutoMediano' style={{display:'flex', flexDirection:'row', marginBottom:'10px', gap: '10px'}}>
+                <h4>Probabilidad comisiones Auto Mediano</h4>
+                <TextField id="filled-number" variant="filled" label="Prob. comision $400 Mediano" type="number" value={probabilidadComisionMediano1} onChange={(e) => setprobabilidadComisionMediano1(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Prob. comision $500 Mediano" type="number" value={probabilidadComisionMediano2} onChange={(e) => setprobabilidadComisionMediano2(Number(e.target.value))}/>
+              </div>
+
+              <div className='dineroPorTipoAutoLujo' style={{display:'flex', flexDirection:'row', marginBottom:'10px', gap: '10px'}}>
+                <h4>Probabilidad comisiones Auto de Lujo</h4>
+                <TextField id="filled-number" variant="filled" label="Prob. comision $1000 Lujo" type="number" value={probabilidadComisionLujo1} onChange={(e) => setprobabilidadComisionLujo1(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Prob. comision $1500 Lujo" type="number" value={probabilidadComisionLujo2} onChange={(e) => setprobabilidadComisionLujo2(Number(e.target.value))}/>
+                <TextField id="filled-number" variant="filled" label="Prob. comision $2000 Lujo" type="number" value={probabilidadComisionLujo3} onChange={(e) => setprobabilidadComisionLujo3(Number(e.target.value))}/>
               </div>
 
               <div className='botoncerrar'>
