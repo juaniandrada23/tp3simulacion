@@ -7,6 +7,27 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 const Principal = () => {
+  const openMenu = () => {
+    setMenuOpen(true);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  //Funcion para refrescar la pag
+  const realizarRefresh = () => {
+    window.location.reload();    
+  }
+
   //Decelaracion de variables principales
   const [simulaciones, setSimulaciones] = useState([]);
   const [cantidadSimulaciones, setCantidadSimulaciones] = useState(10);
@@ -36,21 +57,6 @@ const Principal = () => {
   const [probabilidadComisionLujo2, setprobabilidadComisionLujo2] = useState(40);
   const [probabilidadComisionLujo3, setprobabilidadComisionLujo3] = useState(25);
 
-  const openMenu = () => {
-    setMenuOpen(true);
-  };
-
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
-
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
 
   //Funcion para calcular las comisiones totales de cada vendedor
   const calcularComisionesTotales = () => {
@@ -112,11 +118,6 @@ const Principal = () => {
       return vendedores[3];
     }
   };
-
-  //Funcion para refrescar la pag
-  const realizarRefresh = () => {
-    window.location.reload();    
-  }
 
   //--------------------------------------------------------Ciclo for para generar las simulaciones------------------------------------------------------------------
   const realizarSimulacion = () => {
@@ -241,6 +242,9 @@ const Principal = () => {
       //Hacemos el push al array simulacionesNuevas declarado al principio 
       simulacionesNuevas.push(nuevaSimulacion);
     }
+    
+    const comisionMuyTotal = (comisionAcumuladaVendedor1 + comisionAcumuladaVendedor2 + comisionAcumuladaVendedor3 + comisionAcumuladaVendedor4)/4;
+    console.log('COMISION TOTAL', comisionMuyTotal);
   
     setSimulaciones(simulacionesNuevas);
   };  
