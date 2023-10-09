@@ -151,8 +151,22 @@ const Principal = () => {
       }
     }
   
+    console.log("Comision del auto 1:", comision1);
+    console.log("Comision del auto 2:", comision2);
+    console.log("Comision del auto 3:", comision3);
+    console.log("Comision del auto 4:", comision4);
+
     const comision = comision1 + comision2 + comision3 + comision4;
-    return comision;
+    const comi1 = comision1;
+    const comi2 = comision2;
+    const comi3 = comision3;
+    const comi4 = comision4;
+    return {comision: comision,
+            comision1: comi1,
+            comision2: comi2,
+            comision3: comi3,
+            comision4: comi4
+          };
   };  
 
   //Funcion para asignar vendedor dependiendo del random
@@ -307,6 +321,8 @@ const Principal = () => {
           rndComisionMediano2 = '-';
           rndComisionLujo2 = Math.random().toFixed(4);
         }
+        rndTipoAuto3 = 0;
+        rndTipoAuto4 = 0;
       } else if ( autosVendidos === 3) {
         if (rndTipoAuto1 < probabilidadCompacto * 0.01) {
           tipoAuto1 = 'Compacto';
@@ -349,6 +365,7 @@ const Principal = () => {
           rndComisionMediano3 = '-';
           rndComisionLujo3 = Math.random().toFixed(4);
         }
+        rndTipoAuto4 = 0;
       } else if (autosVendidos === 4) {
         if (rndTipoAuto1 < probabilidadCompacto * 0.01) {
           tipoAuto1 = 'Compacto';
@@ -418,13 +435,13 @@ const Principal = () => {
   
       //AC
       if (vendedor === 'Vendedor 1') {
-        comisionAcumuladaVendedor1 += comision;
+        comisionAcumuladaVendedor1 += comision.comision;
       } else if (vendedor === 'Vendedor 2') {
-        comisionAcumuladaVendedor2 += comision;
+        comisionAcumuladaVendedor2 += comision.comision;
       } else if (vendedor === 'Vendedor 3') {
-        comisionAcumuladaVendedor3 += comision;
+        comisionAcumuladaVendedor3 += comision.comision;
       } else if (vendedor === 'Vendedor 4') {
-        comisionAcumuladaVendedor4 += comision;
+        comisionAcumuladaVendedor4 += comision.comision;
       }
 
       // Calcular promediosAC
@@ -447,23 +464,23 @@ const Principal = () => {
         tipoAuto1,
         rndComisionMediano1: rndComisionMediano1,
         rndComisionLujo1: rndComisionLujo1,
-        comision1,
+        comision1: comision.comision1,
         rndTipoAuto2: rndTipoAuto2.toFixed(4),
         tipoAuto2,
         rndComisionMediano2: rndComisionMediano2,
         rndComisionLujo2: rndComisionLujo2,
-        comision2,
+        comision2: comision.comision2,
         rndTipoAuto3: rndTipoAuto3.toFixed(4),
         tipoAuto3,
         rndComisionMediano3: rndComisionMediano3,
         rndComisionLujo3: rndComisionLujo3,
-        comision3,
+        comision3: comision.comision3,
         rndTipoAuto4: rndTipoAuto4.toFixed(4),
         tipoAuto4,
         rndComisionMediano4: rndComisionMediano4,
         rndComisionLujo4: rndComisionLujo4,
-        comision4,
-        comision,
+        comision4: comision.comision4,
+        comision: comision.comision,
         comisionAcumuladaVendedor1,
         promedioComisionAcumuladaVendedor1,
         comisionAcumuladaVendedor2,
