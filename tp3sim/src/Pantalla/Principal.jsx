@@ -77,34 +77,83 @@ const Principal = () => {
   };
 
   //Funcion para calcular comision dependiendo del tipoAuto y los autos vendidos
-  const calcularComision = (autosVendidos, tipoAuto, rndComisionMediano, rndComisionLujo) => {
-    let comision = 0;
+  const calcularComision = (comision1, comision2, comision3, comision4, tipoAuto1, tipoAuto2, tipoAuto3, tipoAuto4, rndComisionMediano1, rndComisionLujo1, rndComisionMediano2, rndComisionLujo2, rndComisionMediano3, rndComisionLujo3, rndComisionMediano4, rndComisionLujo4) => {
 
-    if (tipoAuto === 'Compacto') {
-      comision = 250 * autosVendidos;
-    } 
-    else if (tipoAuto === 'Mediano') {
-      if (rndComisionMediano <= probabilidadComisionMediano1*0.01) {
-        comision = 400 * autosVendidos;
-      } 
-      else if (rndComisionMediano <= probabilidadComisionMediano2*0.01 + probabilidadComisionMediano1*0.01) {
-        comision = 500 * autosVendidos;
+    if (tipoAuto1 === 'Compacto') {
+      comision1 = 250;
+    } else if (tipoAuto1 === 'Mediano') {
+      if (rndComisionMediano1 <= probabilidadComisionMediano1 * 0.01) {
+        comision1 = 400;
+      } else if (rndComisionMediano1 <= probabilidadComisionMediano2 * 0.01 + probabilidadComisionMediano1 * 0.01) {
+        comision1 = 500;
       }
-    } 
-    else if (tipoAuto === 'Lujo') {
-      if (rndComisionLujo <= probabilidadComisionLujo1*0.01) {
-        comision = 1000 * autosVendidos;
-      } 
-      else if (rndComisionLujo <= probabilidadComisionLujo2*0.01 + probabilidadComisionLujo1*0.01) {
-        comision = 1500 * autosVendidos;
-      } 
-      else if (rndComisionLujo <= probabilidadComisionLujo3*0.01 + probabilidadComisionLujo2*0.01 + probabilidadComisionLujo1*0.01) {
-        comision = 2000 * autosVendidos;
+    } else if (tipoAuto1 === 'Lujo') {
+      if (rndComisionLujo1 <= probabilidadComisionLujo1 * 0.01) {
+        comision1 = 1000;
+      } else if (rndComisionLujo1 <= probabilidadComisionLujo2 * 0.01 + probabilidadComisionLujo1 * 0.01) {
+        comision1 = 1500;
+      } else if (rndComisionLujo1 <= probabilidadComisionLujo3 * 0.01 + probabilidadComisionLujo2 * 0.01 + probabilidadComisionLujo1 * 0.01) {
+        comision1 = 2000;
       }
     }
-
+  
+    if (tipoAuto2 === 'Compacto') {
+      comision2 = 250;
+    } else if (tipoAuto2 === 'Mediano') {
+      if (rndComisionMediano2 <= probabilidadComisionMediano1 * 0.01) {
+        comision2 = 400;
+      } else if (rndComisionMediano2 <= probabilidadComisionMediano2 * 0.01 + probabilidadComisionMediano1 * 0.01) {
+        comision2 = 500;
+      }
+    } else if (tipoAuto2 === 'Lujo') {
+      if (rndComisionLujo2 <= probabilidadComisionLujo1 * 0.01) {
+        comision2 = 1000;
+      } else if (rndComisionLujo2 <= probabilidadComisionLujo2 * 0.01 + probabilidadComisionLujo1 * 0.01) {
+        comision2 = 1500;
+      } else if (rndComisionLujo2 <= probabilidadComisionLujo3 * 0.01 + probabilidadComisionLujo2 * 0.01 + probabilidadComisionLujo1 * 0.01) {
+        comision2 = 2000;
+      }
+    }
+  
+    if (tipoAuto3 === 'Compacto') {
+      comision3 = 250;
+    } else if (tipoAuto3 === 'Mediano') {
+      if (rndComisionMediano3 <= probabilidadComisionMediano1 * 0.01) {
+        comision3 = 400;
+      } else if (rndComisionMediano3 <= probabilidadComisionMediano2 * 0.01 + probabilidadComisionMediano1 * 0.01) {
+        comision3 = 500;
+      }
+    } else if (tipoAuto3 === 'Lujo') {
+      if (rndComisionLujo3 <= probabilidadComisionLujo1 * 0.01) {
+        comision3 = 1000;
+      } else if (rndComisionLujo3 <= probabilidadComisionLujo2 * 0.01 + probabilidadComisionLujo1 * 0.01) {
+        comision3 = 1500;
+      } else if (rndComisionLujo3 <= probabilidadComisionLujo3 * 0.01 + probabilidadComisionLujo2 * 0.01 + probabilidadComisionLujo1 * 0.01) {
+        comision3 = 2000;
+      }
+    }
+  
+    if (tipoAuto4 === 'Compacto') {
+      comision4 = 250;
+    } else if (tipoAuto4 === 'Mediano') {
+      if (rndComisionMediano4 <= probabilidadComisionMediano1 * 0.01) {
+        comision4 = 400;
+      } else if (rndComisionMediano4 <= probabilidadComisionMediano2 * 0.01 + probabilidadComisionMediano1 * 0.01) {
+        comision4 = 500;
+      }
+    } else if (tipoAuto4 === 'Lujo') {
+      if (rndComisionLujo4 <= probabilidadComisionLujo1 * 0.01) {
+        comision4 = 1000;
+      } else if (rndComisionLujo4 <= probabilidadComisionLujo2 * 0.01 + probabilidadComisionLujo1 * 0.01) {
+        comision4 = 1500;
+      } else if (rndComisionLujo4 <= probabilidadComisionLujo3 * 0.01 + probabilidadComisionLujo2 * 0.01 + probabilidadComisionLujo1 * 0.01) {
+        comision4 = 2000;
+      }
+    }
+  
+    const comision = comision1 + comision2 + comision3 + comision4;
     return comision;
-  };
+  };  
 
   //Funcion para asignar vendedor dependiendo del random
   const asignarVendedor = (rnd) => {
@@ -158,35 +207,205 @@ const Principal = () => {
       }
   
       //CONDICIONALES PARA SABER TIPO AUTO Y RANDOM PARA COMISIONES
-      let tipoAuto = '';
-      let rndTipoAuto = Math.random();
+      let rndComisionMediano1 = 0;
+      let rndComisionLujo1 = 0;
+      let rndComisionMediano2 = 0;
+      let rndComisionLujo2 = 0;
+      let rndComisionMediano3 = 0;
+      let rndComisionLujo3 = 0;
+      let rndComisionMediano4 = 0;
+      let rndComisionLujo4 = 0;
 
-      let rndComisionMediano = 0;
-      let rndComisionLujo = 0;
+      let rndTipoAuto1 = Math.random();
+      let rndTipoAuto2 = Math.random();
+      let rndTipoAuto3 = Math.random();
+      let rndTipoAuto4 = Math.random();
+      let tipoAuto1 = '';
+      let tipoAuto2 = '';
+      let tipoAuto3 = '';
+      let tipoAuto4 = '';
+
+      let comision1 = 0;
+      let comision2 = 0;
+      let comision3 = 0;
+      let comision4 = 0;
   
       if (autosVendidos === 0) {
-        rndTipoAuto = 0;
-        tipoAuto = '-';
-        rndComisionMediano = '-';
-        rndComisionLujo = '-';
-      } else if (rndTipoAuto < probabilidadCompacto*0.01) {
-        tipoAuto = 'Compacto';
-      } else if (rndTipoAuto < probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
-        tipoAuto = 'Mediano';
-      } else if (rndTipoAuto < probabilidadLujo*0.01 + probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
-        tipoAuto = 'Lujo';
+        rndTipoAuto1 = 0;
+        rndTipoAuto2 = 0;
+        rndTipoAuto3 = 0;
+        rndTipoAuto4 = 0;
+        tipoAuto1 = '-';
+        tipoAuto2 = '-';
+        tipoAuto3 = '-';
+        tipoAuto4 = '-';
+        rndComisionMediano1 = '-';
+        rndComisionLujo1 = '-';
+        rndComisionMediano2 = '-';
+        rndComisionLujo2 = '-';
+        rndComisionMediano3 = '-';
+        rndComisionLujo3 = '-';
+        rndComisionMediano4 = '-';
+        rndComisionLujo4 = '-';
+      } else if ( autosVendidos === 1) {
+        if (rndTipoAuto1 < probabilidadCompacto * 0.01) {
+          tipoAuto1 = 'Compacto'; 
+          rndTipoAuto2 = 0;
+          tipoAuto2 = '-';
+          rndTipoAuto3 = 0; 
+          tipoAuto3 = '-'; 
+          rndTipoAuto4 = 0;
+          tipoAuto4 = '-';
+          rndComisionMediano1 = '-';
+          rndComisionLujo1 = '-';
+        } else if (rndTipoAuto1 < probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto1 = 'Mediano'; 
+          rndTipoAuto2 = 0;
+          tipoAuto2 = '-';
+          rndTipoAuto3 = 0; 
+          tipoAuto3 = '-'; 
+          rndTipoAuto4 = 0;
+          tipoAuto4 = '-';
+          rndComisionMediano1 = Math.random().toFixed(4);
+          rndComisionLujo1 = '-';
+        } else if (rndTipoAuto1 < probabilidadLujo*0.01 + probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto1 = 'Lujo'; 
+          rndTipoAuto2 = 0;
+          tipoAuto2 = '-';
+          rndTipoAuto3 = 0; 
+          tipoAuto3 = '-'; 
+          rndTipoAuto4 = 0;
+          tipoAuto4 = '-';
+          rndComisionMediano1 = '-';
+          rndComisionLujo1 = Math.random().toFixed(4);
+        }
+      } else if ( autosVendidos === 2) {
+        if (rndTipoAuto1 < probabilidadCompacto * 0.01) {
+          tipoAuto1 = 'Compacto';
+          rndComisionMediano1 = '-';
+          rndComisionLujo1 = '-';
+        } else if (rndTipoAuto1 < probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto1 = 'Mediano';
+          rndComisionMediano1 = Math.random().toFixed(4);
+          rndComisionLujo1 = '-';
+        } else if ( rndTipoAuto1 < probabilidadLujo*0.01 + probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto1 = 'Lujo';
+          rndComisionMediano1 = '-';
+          rndComisionLujo1 = Math.random().toFixed(4);
+        }
+
+        if (rndTipoAuto2 < probabilidadCompacto * 0.01) {
+          tipoAuto2 = 'Compacto';
+          rndComisionMediano2 = '-';
+          rndComisionLujo2 = '-';
+        } else if (rndTipoAuto2 < probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto2 = 'Mediano';
+          rndComisionMediano2 = Math.random().toFixed(4);
+          rndComisionLujo2 = '-';
+        } else if (rndTipoAuto2 < probabilidadLujo*0.01 + probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto2 = 'Lujo';
+          rndComisionMediano2 = '-';
+          rndComisionLujo2 = Math.random().toFixed(4);
+        }
+      } else if ( autosVendidos === 3) {
+        if (rndTipoAuto1 < probabilidadCompacto * 0.01) {
+          tipoAuto1 = 'Compacto';
+          rndComisionMediano1 = '-';
+          rndComisionLujo1 = '-';
+        } else if (rndTipoAuto1 < probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto1 = 'Mediano';
+          rndComisionMediano1 = Math.random().toFixed(4);
+          rndComisionLujo1 = '-';
+        } else if ( rndTipoAuto1 < probabilidadLujo*0.01 + probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto1 = 'Lujo';
+          rndComisionMediano1 = '-';
+          rndComisionLujo1 = Math.random().toFixed(4);
+        }
+
+        if (rndTipoAuto2 < probabilidadCompacto * 0.01) {
+          tipoAuto2 = 'Compacto';
+          rndComisionMediano2 = '-';
+          rndComisionLujo2 = '-';
+        } else if (rndTipoAuto2 < probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto2 = 'Mediano';
+          rndComisionMediano2 = Math.random().toFixed(4);
+          rndComisionLujo2 = '-';
+        } else if (rndTipoAuto2 < probabilidadLujo*0.01 + probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto2 = 'Lujo';
+          rndComisionMediano2 = '-';
+          rndComisionLujo2 = Math.random().toFixed(4);
+        }
+
+        if (rndTipoAuto3 < probabilidadCompacto * 0.01) {
+          tipoAuto3 = 'Compacto';
+          rndComisionMediano3 = '-';
+          rndComisionLujo3 = '-';
+        } else if (rndTipoAuto3 < probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto3 = 'Mediano';
+          rndComisionMediano3 = Math.random().toFixed(4);
+          rndComisionLujo3 = '-';
+        } else if (rndTipoAuto3 < probabilidadLujo*0.01 + probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto3 = 'Lujo';
+          rndComisionMediano3 = '-';
+          rndComisionLujo3 = Math.random().toFixed(4);
+        }
+      } else if (autosVendidos === 4) {
+        if (rndTipoAuto1 < probabilidadCompacto * 0.01) {
+          tipoAuto1 = 'Compacto';
+          rndComisionMediano1 = '-';
+          rndComisionLujo1 = '-';
+        } else if (rndTipoAuto1 < probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto1 = 'Mediano';
+          rndComisionMediano1 = Math.random().toFixed(4);
+          rndComisionLujo1 = '-';
+        } else if ( rndTipoAuto1 < probabilidadLujo*0.01 + probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto1 = 'Lujo';
+          rndComisionMediano1 = '-';
+          rndComisionLujo1 = Math.random().toFixed(4);
+        }
+
+        if (rndTipoAuto2 < probabilidadCompacto * 0.01) {
+          tipoAuto2 = 'Compacto';
+          rndComisionMediano2 = '-';
+          rndComisionLujo2 = '-';
+        } else if (rndTipoAuto2 < probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto2 = 'Mediano';
+          rndComisionMediano2 = Math.random().toFixed(4);
+          rndComisionLujo2 = '-';
+        } else if (rndTipoAuto2 < probabilidadLujo*0.01 + probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto2 = 'Lujo';
+          rndComisionMediano2 = '-';
+          rndComisionLujo2 = Math.random().toFixed(4);
+        }
+
+        if (rndTipoAuto3 < probabilidadCompacto * 0.01) {
+          tipoAuto3 = 'Compacto';
+          rndComisionMediano3 = '-';
+          rndComisionLujo3 = '-';
+        } else if (rndTipoAuto3 < probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto3 = 'Mediano';
+          rndComisionMediano3 = Math.random().toFixed(4);
+          rndComisionLujo3 = '-';
+        } else if (rndTipoAuto3 < probabilidadLujo*0.01 + probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto3 = 'Lujo';
+          rndComisionMediano3 = '-';
+          rndComisionLujo3 = Math.random().toFixed(4);
+        }
+
+        if (rndTipoAuto4 < probabilidadCompacto * 0.01) {
+          tipoAuto4 = 'Compacto';
+          rndComisionMediano4 = '-';
+          rndComisionLujo4 = '-';
+        } else if (rndTipoAuto4 < probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto4 = 'Mediano';
+          rndComisionMediano4 = Math.random().toFixed(4);
+          rndComisionLujo4 = '-';
+        } else if (rndTipoAuto4 < probabilidadLujo*0.01 + probabilidadMediano*0.01 + probabilidadCompacto*0.01) {
+          tipoAuto4 = 'Lujo';
+          rndComisionMediano4 = '-';
+          rndComisionLujo4 = Math.random().toFixed(4);
+        }
       }       
-      
-      if (tipoAuto === 'Compacto') {
-        rndComisionMediano = '-';
-        rndComisionLujo = '-';
-      } else if (tipoAuto === 'Mediano') {
-        rndComisionMediano = Math.random().toFixed(4);
-        rndComisionLujo = '-';
-      } else if (tipoAuto === 'Lujo') {
-        rndComisionMediano = '-';
-        rndComisionLujo = Math.random().toFixed(4);
-      }      
 
       //Random para el vendedor
       const rndVendedor = Math.random();       
@@ -195,7 +414,7 @@ const Principal = () => {
       const vendedor = asignarVendedor(rndVendedor);
 
       //Asignamos como variable comision a la funcion calcularComision como hicimos antes con el vendedor
-      const comision = calcularComision(autosVendidos, tipoAuto, rndComisionMediano, rndComisionLujo);
+      const comision = calcularComision(comision1, comision2, comision3, comision4, tipoAuto1, tipoAuto2, tipoAuto3, tipoAuto4, rndComisionMediano1, rndComisionLujo1, rndComisionMediano2, rndComisionLujo2, rndComisionMediano3, rndComisionLujo3, rndComisionMediano4, rndComisionLujo4);
   
       //AC
       if (vendedor === 'Vendedor 1') {
@@ -224,10 +443,26 @@ const Principal = () => {
         vendedor,
         rndAutosVendidos: rndAutosVendidos.toFixed(4),
         autosVendidos,
-        rndTipoAuto: rndTipoAuto.toFixed(4),
-        tipoAuto,
-        rndComisionMediano: rndComisionMediano,
-        rndComisionLujo: rndComisionLujo,
+        rndTipoAuto1: rndTipoAuto1.toFixed(4),
+        tipoAuto1,
+        rndComisionMediano1: rndComisionMediano1,
+        rndComisionLujo1: rndComisionLujo1,
+        comision1,
+        rndTipoAuto2: rndTipoAuto2.toFixed(4),
+        tipoAuto2,
+        rndComisionMediano2: rndComisionMediano2,
+        rndComisionLujo2: rndComisionLujo2,
+        comision2,
+        rndTipoAuto3: rndTipoAuto3.toFixed(4),
+        tipoAuto3,
+        rndComisionMediano3: rndComisionMediano3,
+        rndComisionLujo3: rndComisionLujo3,
+        comision3,
+        rndTipoAuto4: rndTipoAuto4.toFixed(4),
+        tipoAuto4,
+        rndComisionMediano4: rndComisionMediano4,
+        rndComisionLujo4: rndComisionLujo4,
+        comision4,
         comision,
         comisionAcumuladaVendedor1,
         promedioComisionAcumuladaVendedor1,
@@ -258,10 +493,26 @@ const Principal = () => {
           <td>{simulacion ? simulacion.vendedor : '-'}</td>
           <td>{simulacion ? simulacion.rndAutosVendidos : '-'}</td>
           <td>{simulacion ? simulacion.autosVendidos : '-'}</td>
-          <td>{simulacion ? simulacion.rndTipoAuto : '-'}</td>
-          <td>{simulacion ? simulacion.tipoAuto : '-'}</td>
-          <td>{simulacion ? simulacion.rndComisionMediano : '-'}</td>
-          <td>{simulacion ? simulacion.rndComisionLujo : '-'}</td>
+          <td>{simulacion ? simulacion.rndTipoAuto1 : '-'}</td>
+          <td>{simulacion ? simulacion.tipoAuto1 : '-'}</td>
+          <td>{simulacion ? simulacion.rndComisionMediano1 : '-'}</td>
+          <td>{simulacion ? simulacion.rndComisionLujo1 : '-'}</td>
+          <td>{simulacion ? simulacion.comision1 : '-'}</td>
+          <td>{simulacion ? simulacion.rndTipoAuto2 : '-'}</td>
+          <td>{simulacion ? simulacion.tipoAuto2 : '-'}</td>
+          <td>{simulacion ? simulacion.rndComisionMediano2 : '-'}</td>
+          <td>{simulacion ? simulacion.rndComisionLujo2 : '-'}</td>
+          <td>{simulacion ? simulacion.comision2 : '-'}</td>
+          <td>{simulacion ? simulacion.rndTipoAuto3 : '-'}</td>
+          <td>{simulacion ? simulacion.tipoAuto3 : '-'}</td>
+          <td>{simulacion ? simulacion.rndComisionMediano3 : '-'}</td>
+          <td>{simulacion ? simulacion.rndComisionLujo3 : '-'}</td>
+          <td>{simulacion ? simulacion.comision3 : '-'}</td>
+          <td>{simulacion ? simulacion.rndTipoAuto4 : '-'}</td>
+          <td>{simulacion ? simulacion.tipoAuto4 : '-'}</td>
+          <td>{simulacion ? simulacion.rndComisionMediano4 : '-'}</td>
+          <td>{simulacion ? simulacion.rndComisionLujo4 : '-'}</td>
+          <td>{simulacion ? simulacion.comision4 : '-'}</td>
           <td>${simulacion ? simulacion.comision : '-'}</td>
           <td>{simulacion ? simulacion.comisionAcumuladaVendedor1 : '-'}</td>
           <td>{simulacion ? simulacion.promedioComisionAcumuladaVendedor1.toFixed(1) : '-'}</td>
@@ -281,10 +532,26 @@ const Principal = () => {
         <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].vendedor : '-'}</td>
         <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndAutosVendidos : '-'}</td>
         <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].autosVendidos : '-'}</td>
-        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndTipoAuto : '-'}</td>
-        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].tipoAuto : '-'}</td>
-        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndComisionMediano : '-'}</td>
-        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndComisionLujo : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndTipoAuto1 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].tipoAuto1 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndComisionMediano1 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndComisionLujo1 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comision1 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndTipoAuto2 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].tipoAuto2 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndComisionMediano2 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndComisionLujo2 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comision2 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndTipoAuto3 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].tipoAuto3 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndComisionMediano3 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndComisionLujo3 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comision3 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndTipoAuto4 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].tipoAuto4 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndComisionMediano4 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].rndComisionLujo4 : '-'}</td>
+        <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comision4 : '-'}</td>
         <td>${simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comision : '-'}</td>
         <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].comisionAcumuladaVendedor1 : '-'}</td>
         <td>{simulaciones[simulaciones.length - 1] ? simulaciones[simulaciones.length - 1].promedioComisionAcumuladaVendedor1.toFixed(1) : '-'}</td>
@@ -421,11 +688,27 @@ const Principal = () => {
             <th>Vendedor</th>
             <th>RND Autos vendidos</th>
             <th>Autos Vendidos</th>
-            <th>RND Tipo auto</th>
-            <th>Tipo Auto</th>
-            <th>Rnd Mediano</th>
-            <th>Rnd Lujo</th>
-            <th>Comisión</th>
+            <th>RND Tipo auto1</th>
+            <th>Tipo Auto1</th>
+            <th style={{backgroundColor:'coral'}}>Rnd Mediano1</th>
+            <th style={{backgroundColor:'coral'}}>Rnd Lujo1</th>
+            <th style={{backgroundColor:'green'}}>Comision1</th>
+            <th>RND Tipo auto2</th>
+            <th>Tipo Auto2</th>
+            <th style={{backgroundColor:'coral'}}>Rnd Mediano2</th>
+            <th style={{backgroundColor:'coral'}}>Rnd Lujo2</th>
+            <th style={{backgroundColor:'green'}}>Comision2</th>
+            <th>RND Tipo auto3</th>
+            <th>Tipo Auto3</th>
+            <th style={{backgroundColor:'coral'}}>Rnd Mediano3</th>
+            <th style={{backgroundColor:'coral'}}>Rnd Lujo3</th>
+            <th style={{backgroundColor:'green'}}>Comision3</th>
+            <th>RND Tipo auto4</th>
+            <th>Tipo Auto4</th>
+            <th style={{backgroundColor:'coral'}}>Rnd Mediano4</th>
+            <th style={{backgroundColor:'coral'}}>Rnd Lujo4</th>
+            <th style={{backgroundColor:'green'}}>Comision4</th>
+            <th style={{backgroundColor:'blue'}}>ComisionTotal</th>
             <th>AC Comision V1</th>
             <th>Prom. Comision AC V1</th>
             <th>AC Comision V2</th>
