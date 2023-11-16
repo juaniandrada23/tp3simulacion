@@ -1,0 +1,46 @@
+/* Reset de estilos para la tabla */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilo para el encabezado de la tabla */
+  thead {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  thead th {
+    padding: 5px;
+    text-align: left;
+  }
+  
+  /* Estilo para las celdas de la tabla */
+  tbody {
+    background-color: #ecf0f1;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  tbody tr:hover {
+    background-color: #d0d0d0;
+  }
+  
+  tbody td {
+    padding: 10px;
+  }
+  
+  /* Estilo para resaltar las celdas de los eventos */
+  tbody .evento-LlegadaEmpleado {
+    background-color: #2ecc71;
+    color: white;
+  }
+  
+  tbody .evento-LlegadaTecnico {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
